@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    tools {
+        /*maven 'maven-3.6.3' */
+        maven 'suse'
+    }
+    environment {
+        DATE = new Date().format('yy.M')
+        TAG = "${DATE}.${BUILD_NUMBER}"
+    }
+    stages {
+        stage ('Get GIT code') {
+	  steps {
+	    git branch: 'main', url: 'https://github.com/juanbrny/spring-petclinic.git'
+	  }
+        }
+        stage ('Compile and Test') {
+            steps {
+              sh 'mvn clean test'
+            }
+        }
+	stage ('Package') {
+            steps {
+              sh 'mvn package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                script {
+                    docker.build("juanbrny/spring-petclinic:${TAG}")
+                }
+            }
+        }
+    }
+}
