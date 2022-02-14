@@ -1,7 +1,7 @@
 FROM registry.suse.com/bci/openjdk:11-11.1
 
 ARG ARTIFACT_NAME
-COPY ../target/${ARTIFACT_NAME}.jar application.jar
+COPY target/${ARTIFACT_NAME}.jar application.jar
 
 CMD java -Dserver.port=${SERVER_PORT:-}\
           -Dserver.context-path=/petclinic/\
