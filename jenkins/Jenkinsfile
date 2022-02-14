@@ -27,7 +27,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    docker.build("juanbrny/spring-petclinic:${TAG}")
+		  sh "docker build --build-arg ARTIFACT_NAME=spring-petclinic-2.6.0-SNAPSHOT -t juanbrny/spring-petclinic:${TAG} ."
                 }
             }
         }
