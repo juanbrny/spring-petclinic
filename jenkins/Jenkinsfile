@@ -7,6 +7,7 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS = credentials('juanbrnyjfrogregistry')
     }
     stages {
         stage ('Get GIT code') {
@@ -27,9 +28,28 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-		  sh "docker build --build-arg ARTIFACT_NAME=spring-petclinic-2.6.0-SNAPSHOT -t juanbrny/spring-petclinic:${TAG} ."
+		  sh "docker build -f docker/Dockerfile --build-arg ARTIFACT_NAME=spring-petclinic-2.6.0-SNAPSHOT -t spring-petclinic:${TAG} ."
                 }
             }
         }
+      stage('Login') {
+        steps {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin juanbrny.jfrog.io'
+        }
+      }
+      stage('Push') {
+        steps {
+          sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
+          sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
+          
+          sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
+          sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
+        }
+      }        
     }
+    post {
+      always {
+        sh 'docker logout'
+      }
+  }
 }
