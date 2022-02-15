@@ -1,26 +1,25 @@
 pipeline {
     agent any
     tools {
-        /*maven 'maven-3.6.3' */
-        maven 'suse'
+        maven 'maven-3.6.3'
     }
     environment {
-        DATE = new Date().format('yy.M')
+        DATE = new Date().format('yy.MM')
         TAG = "${DATE}.${BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS = credentials('juanbrnyjfrogregistry')
     }
     stages {
-        stage ('Get GIT code') {
+        stage ('Download code from main branch') {
 	  steps {
 	    git branch: 'main', url: 'https://github.com/juanbrny/spring-petclinic.git'
 	  }
         }
         stage ('Compile and Test') {
             steps {
-              sh 'mvn clean test'
+              sh 'mvn test'
             }
         }
-	stage ('Package') {
+	stage ('Compile and Package') {
             steps {
               sh 'mvn package'
             }
@@ -32,24 +31,24 @@ pipeline {
                 }
             }
         }
-      stage('Login') {
-        steps {
-          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin juanbrny.jfrog.io'
+        stage('Login') {
+            steps {
+              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin juanbrny.jfrog.io'
+            }
         }
-      }
-      stage('Push') {
-        steps {
-          sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
-          sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
+        stage('Push') {
+            steps {
+              sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
+              sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
           
-          sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
-          sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
-        }
-      }        
+              sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
+              sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:latest'
+            }
+        }        
     }
     post {
       always {
         sh 'docker logout'
       }
-  }
+    }
 }
