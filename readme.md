@@ -283,7 +283,7 @@ In future examples we will review:
 
 - Better integrate Jenkins in Kubernetes to use containerized agents instead of virtual machines 
 
-- Target Kubernetes as the deployment environment of our containers. 
+- Target Kubernetes as the deployment environment for our containers. 
 
   
 
