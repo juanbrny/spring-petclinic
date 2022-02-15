@@ -34,7 +34,7 @@ Our pipeline infrastructure consists of a Jenkins controller deployed in Rancher
 
   
 
-Containerized Jenkins controller will be deployed with Helm using Bitnami's chart: https://bitnami.com/stack/jenkins/helm 
+Containerized Jenkins controller will be installed with Bitnami's Helm chart: https://bitnami.com/stack/jenkins/helm 
 
   
 
