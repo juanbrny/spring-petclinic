@@ -44,7 +44,9 @@ The Linux virtual machines will be based in SLES15 (SUSE Linux Enterprise Server
 
 ### GitHub repository 
 
-Our reference repository will be https://github.com/spring-projects/spring-petclinic. Please, fork it to your own GitHub account as we will need to do some modifications. 
+Our reference repository will be https://github.com/spring-projects/spring-petclinic. 
+
+Please, fork it to your own GitHub account as we will need to do some modifications. 
 
   
 
@@ -70,7 +72,7 @@ The only configuration step required will be creating an auth key for our user. 
 
   
 
-### Maven Centra 
+### Maven Central
 
 As we explained, for simplicity, we will be using Mave Central as our artifacts repository.  
 
@@ -82,7 +84,7 @@ The same free service that we described for the container registry can be config
 
 ## Project setup 
 
-  
+
 
 ### Add Jenkins and Docker support to our project 
 
@@ -102,7 +104,7 @@ In those folders you will find all the bits and pieces needed to create our buil
 
 We will modify the original POM file to make sure that all dependencies go through Maven Central. In a future version, we will replace this repository with JFrog Artifactory for better control of our code sources. 
 
-  ``` 
+  ```xml
 
 <repositories> 
 
@@ -156,15 +158,16 @@ We will use the default values except in the Pipelines section where we will sel
 
 This means that the pipeline definition will be grabbed from GitHub, this way we can have full versioning control not only for the application code but also for our build and deployment automation. 
 
-  
-
+Use this values to complete the Pipeline creation form:
+``` 
 Git Repo: https://github.com/juanbrny/spring-petclinic.git 
 
 Branch: */main 
 
-Credentials: not needed as our repo is public. 
+Credentials: (not needed as our repo is public, add yours in case of private repo)
 
 Script Path: jenkins/Jenkinsfile 
+``` 
 
 screen2 
 
