@@ -150,11 +150,13 @@ Once the application jar is created the remaining steps will take care of creati
 
 ### Pipeline execution 
 
-![4269f3501839f3378427941297f67b18.png](:/83284a55aa5f4c9fa8e3215064405ff4) 
-
-screen1 
+In our Jenkins console we create a new item named spring-petclinic-pipeline of type "Pipeline"
+![Create Jenkins Pipeline](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins1.png?raw=true)
 
 We will use the default values except in the Pipelines section where we will select Pipeline script from SCM. 
+![Jenkins Pipeline Form](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins2.png?raw=true)
+
+
 
 This means that the pipeline definition will be grabbed from GitHub, this way we can have full versioning control not only for the application code but also for our build and deployment automation. 
 
@@ -169,28 +171,24 @@ Credentials: (not needed as our repo is public, add yours in case of private rep
 Script Path: jenkins/Jenkinsfile 
 ``` 
 
-screen2 
-
 Click on Save and we are ready to go. 
-
-  
-
+ 
 In the main screen of the newly created pipeline, we now can select "Build Now" to test the execution.  
+
+![Building](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins3.png?raw=true)
 
 During the execution we can monitor the progress using the "Console Output" 
 
-scren4 
+![Output](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins4.png?raw=true) 
 
 Once finished we can check the result and we can see how the container has been pushed to the container registry: 
 
-sceren5 
+![Result](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins5.png?raw=true)
 
-  
 
 As a final check we will go to our container registry to double check the new image is published. 
 
-screen6 
-
+![Registry](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jfrog6.png?raw=true)
   
 
 ## Running our brand-new container 
@@ -209,13 +207,65 @@ As we can see in our registry, our newly created image is tagged as: juanbrny.jf
 
 We only need a workstation with Docker enabled to run it: 
 
+```bash
 docker run -p 0.0.0.0:8080:8080 --rm juanbrny.jfrog.io/default-docker-local/spring-petclinic:22.02.3 
-
+```
   
 
 And here we go. Our Petclinic is up and running! 
+```bash
+jenkinsbuild01:~ # docker run -p 0.0.0.0:8080:8080 --rm juanbrny.jfrog.io/default-docker-local/spring-petclinic:22.02.3
+Unable to find image 'juanbrny.jfrog.io/default-docker-local/spring-petclinic:22.02.3' locally
+22.02.3: Pulling from default-docker-local/spring-petclinic
+Digest: sha256:56818840cc0fe9e3505d148a040c02d48523396c34c609d8e15339a845ff4ae6
+Status: Downloaded newer image for juanbrny.jfrog.io/default-docker-local/spring-petclinic:22.02.3
 
-j7 
+
+              |\      _,,,--,,_
+             /,`.-'`'   ._  \-;;,_
+  _______ __|,4-  ) )_   .;.(__`'-'__     ___ __    _ ___ _______
+ |       | '---''(_/._)-'(_\_)   |   |   |   |  |  | |   |       |
+ |    _  |    ___|_     _|       |   |   |   |   |_| |   |       | __ _ _
+ |   |_| |   |___  |   | |       |   |   |   |       |   |       | \ \ \ \
+ |    ___|    ___| |   | |      _|   |___|   |  _    |   |      _|  \ \ \ \
+ |   |   |   |___  |   | |     |_|       |   | | |   |   |     |_    ) ) ) )
+ |___|   |_______| |___| |_______|_______|___|_|  |__|___|_______|  / / / /
+ ==================================================================/_/_/_/
+
+:: Built with Spring Boot :: 2.6.3
+
+
+2022-02-15 15:36:02.311  INFO 1 --- [           main] o.s.s.petclinic.PetClinicApplication     : Starting PetClinicApplication v2.6.0-SNAPSHOT using Java 11.0.13 on 5ba308d7b1c8 with PID 1 (/application.jar started by root in /)
+2022-02-15 15:36:02.315  INFO 1 --- [           main] o.s.s.petclinic.PetClinicApplication     : No active profile set, falling back to default profiles: default
+2022-02-15 15:36:03.652  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-02-15 15:36:03.720  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 2 JPA repository interfaces.
+2022-02-15 15:36:04.510  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-02-15 15:36:04.523  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-02-15 15:36:04.524  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-02-15 15:36:04.584  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-02-15 15:36:04.585  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2188 ms
+2022-02-15 15:36:04.835  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-02-15 15:36:05.133  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-02-15 15:36:05.550  INFO 1 --- [           main] org.ehcache.core.EhcacheManager          : Cache 'vets' created in EhcacheManager.
+2022-02-15 15:36:05.564  INFO 1 --- [           main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=urn.X-ehcache.jsr107-default-config,Cache=vets
+2022-02-15 15:36:05.570  INFO 1 --- [           main] org.ehcache.jsr107.Eh107CacheManager     : Registering Ehcache MBean javax.cache:type=CacheStatistics,CacheManager=urn.X-ehcache.jsr107-default-config,Cache=vets
+2022-02-15 15:36:05.641  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-02-15 15:36:05.707  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.4.Final
+2022-02-15 15:36:05.904  INFO 1 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-02-15 15:36:06.052  INFO 1 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-02-15 15:36:06.924  INFO 1 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-02-15 15:36:06.935  INFO 1 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-02-15 15:36:08.769  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 13 endpoint(s) beneath base path '/actuator'
+2022-02-15 15:36:08.834  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-02-15 15:36:08.852  INFO 1 --- [           main] o.s.s.petclinic.PetClinicApplication     : Started PetClinicApplication in 7.146 seconds (JVM running for 7.859)
+2022-02-15 15:36:34.756  INFO 1 --- [0.0-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-02-15 15:36:34.756  INFO 1 --- [0.0-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-02-15 15:36:34.758  INFO 1 --- [0.0-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+```
+
+Let's access with the browser:
+
+![Petclinic](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/petclinic7.png?raw=true)
 
   
 
