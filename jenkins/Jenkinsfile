@@ -24,19 +24,19 @@ pipeline {
               sh 'mvn package'
             }
         }
-        stage('Docker Build') {
+        stage('Docker Build Container') {
             steps {
                 script {
 		  sh "docker build -f docker/Dockerfile --build-arg ARTIFACT_NAME=spring-petclinic-2.6.0-SNAPSHOT -t spring-petclinic:${TAG} ."
                 }
             }
         }
-        stage('Login') {
+        stage('Container Registry Login') {
             steps {
               sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin juanbrny.jfrog.io'
             }
         }
-        stage('Push') {
+        stage('Image publish to Container Registry') {
             steps {
               sh 'docker image tag spring-petclinic:${TAG} juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
               sh 'docker push juanbrny.jfrog.io/default-docker-virtual/spring-petclinic:${TAG}'
