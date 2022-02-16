@@ -181,12 +181,12 @@ During the execution we can monitor the progress using the "Console Output"
 
 ![Output](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins4.png?raw=true) 
 
-Once finished we can check the result and we can see how the container has been pushed to the container registry: 
+Once finished we can analyze the result and see how the container has been pushed to the container registry: 
 
 ![Result](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jenkins5.png?raw=true)
 
 
-As a final check we will go to our container registry to double check the new image is published. 
+Final step, go to our container registry to double check the new image is published. 
 
 ![Registry](https://github.com/juanbrny/spring-petclinic/blob/main/doc/blob/jfrog6.png?raw=true)
   
