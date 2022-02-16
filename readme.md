@@ -76,7 +76,7 @@ The only configuration step required will be creating an auth key for our user. 
 
 As we explained, for simplicity, we will be using Mave Central as our artifacts repository.  
 
-In corporate environments it is highly recommended that you have full control about the source, availability, and security of your artifacts. That is why we do recommend using JFrog Artifactory to cache and store your artifacts. 
+In corporate environments it is highly recommended that you have full control about the source, availability, and security of your artifacts. That is why we do recommend using JFrog Artifactory to cache and store them. 
 
 The same free service that we described for the container registry can be configured to act as our main artifact's provider. 
 
