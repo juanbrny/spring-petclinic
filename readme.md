@@ -271,7 +271,7 @@ Let's access with the browser:
 
 # Summary 
 
-This is an extremely basic example, but it presents the core concept around modern software building and deployment strategies that every DevOps engineer should master. 
+This is an extremely basic example, but it presents some key concepts around modern software building and deployment strategies that every DevOps engineer should master. 
 
 It covers source control, software artifacts management and container creation and execution. All glued together by Jenkins to provide a fully automated approach to software construction. 
 
